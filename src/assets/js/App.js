@@ -6,7 +6,7 @@ var ReactDOM = require('react-dom');
 
 var MuiThemeProvider = require('material-ui').MuiThemeProvider;
 var getMuiTheme = require('material-ui/styles').getMuiTheme;
-var DarkRawTheme = require('material-ui/styles').DarkRawTheme;
+var DarkBaseTheme = require('material-ui/styles').darkBaseTheme;
 
 var injectTapEventPlugin = require('react-tap-event-plugin');
 
@@ -16,7 +16,7 @@ var Course = require('./Course');
 injectTapEventPlugin();
 
 ReactDOM.render((
-    <MuiThemeProvider muiTheme={getMuiTheme(DarkRawTheme)}>
+    <MuiThemeProvider muiTheme={getMuiTheme(DarkBaseTheme)}>
         <div>
             <Header/>
             <Course/>
