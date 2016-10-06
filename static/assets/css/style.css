@@ -88,7 +88,7 @@ body {
     border-color: white;
 }
 
-.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step:hover .mdl-stepper-circle {
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle:hover {
     border-color: white;
 }
 
@@ -125,7 +125,7 @@ body {
     color: #2c9676;
 }
 
-.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step:hover .mdl-stepper-circle i {
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle:hover i {
     color: white;
 }
 
@@ -139,7 +139,7 @@ body {
     border: 2px solid rgba(243, 240, 240, 0.5);
 }
 
-.mdl-stepper-horizontal-alternative .mdl-stepper-step:hover .mdl-stepper-circle i.mask-icon {
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle:hover i.mask-icon {
     display: none;
 }
 
@@ -209,7 +209,6 @@ body {
     display: none;
 }
 
-
 .mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-left,
 .mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
     position: absolute;
@@ -230,10 +229,20 @@ body {
     margin-right: 20px;
 }
 
-.coursePlayer .play{
+.coursePlayer {
+    text-align: center;
+}
+
+.coursePlayer .play {
     display: none;
 }
 
-.coursePlayer .paused{
+.coursePlayer .paused {
     display: block;
+}
+
+.coursePlayer #video {
+    width: auto !important;
+    height: 720px !important;
+    min-width: initial !important;
 }
