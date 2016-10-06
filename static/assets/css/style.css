@@ -194,7 +194,6 @@ body {
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-title {
     margin-top: 16px;
-    font-size: 14px;
     font-weight: 500;
     color: #2c9676;
 }
@@ -231,6 +230,7 @@ body {
 
 .coursePlayer {
     text-align: center;
+    background-color: rgba(0, 0, 0, 0.870588);
 }
 
 .coursePlayer .play {
@@ -257,4 +257,12 @@ body {
     .coursePlayer #video {
         height: 360px !important;
     }
+}
+
+.prettyprint {
+    margin: 20px;
+    padding: 15px 25px !important;
+    line-height: 24px;
+    font-size: 14px;
+    box-sizing: border-box;
 }
