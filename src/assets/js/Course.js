@@ -76,8 +76,9 @@ var CourseDetail = React.createClass({
             },
             {
                 active: true,
-                done: true,
+                done: false,
                 title: 'Receiving input',
+                subtitle: 'Optional',
                 type: 'text'
             },
             {
