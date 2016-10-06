@@ -246,3 +246,15 @@ body {
     height: 720px !important;
     min-width: initial !important;
 }
+
+@media screen and (max-height: 720px) {
+    .coursePlayer #video {
+        height: 480px !important;
+    }
+}
+
+@media screen and (max-height: 480px) {
+    .coursePlayer #video {
+        height: 360px !important;
+    }
+}

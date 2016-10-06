@@ -32,7 +32,7 @@ var VideoPlayer = React.createClass({
                 overlayContainerStyle={{top: '0', left: '0', right: '0', bottom: 'initial'}}
                 overlayContentStyle={{height: 'auto', top: '0', left: '0', right: '0', bottom: 'initial', padding: '0'}}
                 className="coursePlayer">
-                <video id="video" className="responsive-video" controls autoPlay>
+                <video id="video" controls autoPlay>
                     <source src={this.props.data.url} type="video/mp4"/>
                 </video>
             </CardMedia>
