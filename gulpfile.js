@@ -55,7 +55,15 @@ gulp.task('concat-css', function () {
 gulp.task('sync', function () {
     return gulp.src(['./src/assets/**/*', '!./src/assets/css/*', '!./src/assets/js/*', '!./src/assets/data/*'])
         .pipe(newer('./static/assets'))
-        .pipe(gulp.dest('./static/assets'));
+        .pipe(gulp.dest('./static/assets'))
+        .on('error', function (err) {
+            console.error("\033[31m", err.message, " \033[m");
+            console.error("\033[31m", err.codeFrame, " \033[m");
+            this.emit('end');
+        })
+        .on('finish', function () {
+            console.log("\033[32m", "Sync assets successfully at " + new Date(), " \033[m");
+        });
 });
 
 // Default Task

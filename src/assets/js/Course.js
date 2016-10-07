@@ -2,7 +2,7 @@
  * Created by Cho To Xau Tinh on 05-Oct-16.
  */
 var React = require('react');
-
+var withRouter = require('react-router').withRouter;
 var Link = require('react-router').Link;
 var FontIcon = require('material-ui').FontIcon;
 var Card = require('material-ui').Card;
@@ -16,7 +16,7 @@ var CourseDetail = React.createClass({
     getInitialState: function () {
         return {
             steps: [],
-            current: null
+            currentId: this.props.currentId
         }
     },
     loadLectureListInSection: function () {
@@ -71,25 +71,25 @@ var CourseDetail = React.createClass({
             steps: steps
         });
     },
-    loadCurrentLecture: function () {
-        this.setState({
-            current: 0
-        });
-    },
     componentDidMount: function () {
         this.loadLectureListInSection();
-        this.loadCurrentLecture();
+    },
+    componentDidUpdate: function (prevProps) {
+        if (this.props.currentId != prevProps.currentId) {
+            this.setState({
+                currentId: this.props.currentId
+            })
+        }
     },
     changeLesson: function (index) {
         if (this.state.current == index)
             return;
-        this.setState({
-            current: index
-        })
+        this.props.onChangeLesson(index);
     },
     render: function () {
         var stepList = this.state.steps.map(function (step) {
-            return <Step data={step} current={this.state.current == step.id} key={step.id} onclick={this.changeLesson}/>
+            return <Step data={step} current={this.state.currentId == step.id} key={step.id}
+                         onclick={this.changeLesson}/>
         }.bind(this));
 
         return (
@@ -99,21 +99,26 @@ var CourseDetail = React.createClass({
                         {stepList}
                     </div>
                 </CardText>
-                <Lecture currentId={this.state.current}/>
+                <Lecture currentId={this.state.currentId}/>
             </Card>
         )
     }
 });
 
 var Course = React.createClass({
+    changeLesson: function (index) {
+        if (index == this.props.params.id)
+            return;
+        this.props.router.push("/" + index);
+    },
     render: function () {
         return (
             <div style={{marginTop: 15}}>
                 <Link to="/" className="breadcrumb">{backIcon} Java Basics</Link>
-                <CourseDetail/>
+                <CourseDetail currentId={this.props.params.id} onChangeLesson={this.changeLesson}/>
             </div>
         )
     }
 });
 
-module.exports = Course;
+module.exports = withRouter(Course);
