@@ -45,8 +45,8 @@ var CourseDetail = React.createClass({
             active: true,
             done: false,
             title: 'Receiving input',
-            subtitle: 'Optional',
-            type: 'text'
+            subtitle: '7:30',
+            type: 'video'
         }, {
             id: 4,
             active: true,
@@ -73,7 +73,7 @@ var CourseDetail = React.createClass({
     },
     loadCurrentLecture: function () {
         this.setState({
-            current: 4
+            current: 0
         });
     },
     componentDidMount: function () {
@@ -99,7 +99,7 @@ var CourseDetail = React.createClass({
                         {stepList}
                     </div>
                 </CardText>
-                <Lecture id={this.state.current}/>
+                <Lecture currentId={this.state.current}/>
             </Card>
         )
     }

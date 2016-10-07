@@ -78,7 +78,7 @@ age = age + 7;
 <li><p>Instance variables have default values. For numbers, the default value is 0, for Booleans it is false, and for object references it is null. Values can be assigned during the declaration or within the constructor.</p></li>
 <li><p>Instance variables can be accessed directly by calling the variable name inside the class. However, within static methods (when instance variables are given accessibility), they should be called using the fully qualified name. <i>ObjectReference.VariableName</i>.</p></li>
 </ul>
-<h3>Example</h3>
+<h3 style="color: rgb(0,0,0)">Example</h3>
 <pre class="prettyprint notranslate tryit prettyprinted"><span class="kwd">import</span><span class="pln"> java</span><span class="pun">.</span><span class="pln">io</span><span class="pun">.*;</span><span class="pln">
 </span><span class="kwd">public</span><span class="pln"> </span><span class="kwd">class</span><span class="pln"> </span><span class="typ">Employee</span><span class="pln"> </span><span class="pun">{</span><span class="pln">
 

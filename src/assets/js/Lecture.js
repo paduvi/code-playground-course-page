@@ -7,6 +7,38 @@ var cheerio = require('cheerio');
 var LectureVideo = require('./LectureVideo');
 var LectureText = require('./LectureText');
 
+const dataList = [{
+    id: 0,
+    type: 'text',
+    content: handleHtmlString(require('../data/environment-html')),
+    title: 'Introduction to Your Tool',
+}, {
+    id: 2,
+    type: 'text',
+    title: 'String and Variables',
+    content: handleHtmlString(require('../data/variables-html'))
+}, {
+    id: 3,
+    type: 'video',
+    url: 'media/corgi.mp4',
+    title: 'Receiving input',
+    duration: '7:30'
+}];
+
+function handleHtmlString(html) {
+    var $ = cheerio.load(html);
+
+    $('*').each(function (index, element) {      // iterate over all elements
+        if (element.attribs.hasOwnProperty('class'))
+            delete element.attribs.class;
+        if (['h1', 'h2', 'h3'].indexOf(element.name) != -1)
+            element.name = 'h5';
+    });
+    $('pre,code').attr('class', 'prettyprint');
+
+    return $.html();
+}
+
 var Lecture = React.createClass({
     getInitialState: function () {
         return {
@@ -14,44 +46,26 @@ var Lecture = React.createClass({
         }
     },
     componentDidMount: function () {
-        /*
-         Example for video data
-         */
-        // var data = {
-        //     type: 'video',
-        //     url: 'media/corgi.mp4',
-        //     title: 'Reading File',
-        //     duration: '7:30'
-        // };
-
-        /*
-         Example for text data
-         */
-        let content = require('../test/html-string');
-
-        let data = {
-            type: 'text',
-            title: 'String and Variables',
-            content: this.handleHtmlString(content)
-        };
-
-        this.setState({
-            data: data
-        });
-
+        this.loadData();
     },
-    handleHtmlString: function (html) {
-        var $ = cheerio.load(html);
+    componentDidUpdate: function (prevProps) {
+        var oldId = prevProps.currentId;
+        var newId = this.props.currentId;
+        if (oldId === newId) {
+            return;
+        }
+        this.loadData();
+    },
+    loadData: function () {
+        let filter = dataList.filter(function (o) {
+            return o.id == this.props.currentId;
+        }.bind(this));
 
-        $('*').each(function (index, element) {      // iterate over all elements
-            if (element.attribs.hasOwnProperty('class'))
-                delete element.attribs.class;
-            if (['h1', 'h2', 'h3'].indexOf(element.name) != -1)
-                element.name = 'h5';
-        });
-        $('pre,code').attr('class', 'prettyprint');
-
-        return $.html();
+        if (filter.length) {
+            this.setState({
+                data: filter[0]
+            });
+        }
     },
     render: function () {
         if (!this.state.data.type) {

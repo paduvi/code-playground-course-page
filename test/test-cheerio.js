@@ -2,7 +2,7 @@
  * Created by Cho To Xau Tinh on 07-Oct-16.
  */
 var cheerio = require('cheerio');
-var htmlContent = require('./html-string');
+var htmlContent = require('./../src/assets/data/environment-html');
 
 var $ = cheerio.load(htmlContent);
 
