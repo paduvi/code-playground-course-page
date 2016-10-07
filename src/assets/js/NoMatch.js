@@ -5,16 +5,16 @@ var React = require('react');
 var Link = require('react-router').Link;
 var $ = require('jquery');
 
+//prepare variables
+var degree = 0;
+var maxtalk = 0;
+var talkbubble = 1;
+var timer, timer1, timer2;
+
 var NoMatch = React.createClass({
     componentDidMount: function () {
 
-        //prepare variables
-        var degree = 0;
-
-        var maxtalk = 0;
-        var talkbubble = 1;
-
-
+        maxtalk = 0;
         //count talk bubbles
         $("div.bubble-options p.dog-bubble").each(function () {
             maxtalk++;
@@ -26,7 +26,7 @@ var NoMatch = React.createClass({
 
         //function that handles the talking dog bubble animations
         function dogTalk() {
-            var timer = setTimeout(function () {
+            timer = setTimeout(function () {
 
                 //change the bubble html code
                 var $temp = "<p>" + $("div.bubble-options p.dog-bubble:nth-child(" + talkbubble + ")").html() + "</p>";
@@ -71,7 +71,7 @@ var NoMatch = React.createClass({
             $planet.css({'-o-transform': 'rotate(' + degree + 'deg)'});
 
             // Animate rotation with a recursive call
-            var timer = setTimeout(function () {
+            timer1 = setTimeout(function () {
                 degree -= 0.1;
                 rotate();
             }, 10);
@@ -81,7 +81,7 @@ var NoMatch = React.createClass({
         function dogRun() {
 
             var dog = $("div.dog");
-            var timer2 = setTimeout(function () {
+            timer2 = setTimeout(function () {
                 if (dog.css("background-position") == "0px 0px")
                     dog.css({"background-position": "-80px -2px"});
                 else
@@ -89,6 +89,11 @@ var NoMatch = React.createClass({
                 dogRun();
             }, 130);
         }
+    },
+    componentWillUnmount: function () {
+        clearTimeout(timer);
+        clearTimeout(timer1);
+        clearTimeout(timer2);
     },
     render: function () {
         return (
