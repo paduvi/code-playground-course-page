@@ -10,7 +10,9 @@ var LectureText = React.createClass({
     render: function () {
         return (
             <div className="lectureText">
-                <CardTitle title={<h3 style={{fontSize: '28px'}}>{this.props.data.title}</h3>}/>
+                <CardTitle title={<h3
+                    style={{fontSize: '28px', textAlign: 'center', fontWeight: 'bold'}}>{this.props.data.title}</h3>}
+                           subtitleStyle={{display: 'inline'}} subtitle={this.props.data.subtitle}/>
                 <CardText color="rgba(0, 0, 0, 0.5)">
                     {HtmlToReactParser.parse(this.props.data.content)}
                 </CardText>
