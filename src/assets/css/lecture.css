@@ -263,7 +263,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 }
 
-.prettyprint {
+.hljs {
     margin: 20px;
     padding: 15px 25px !important;
     line-height: 24px;

@@ -5,8 +5,20 @@ var React = require('react');
 var HtmlToReactParser = require('html-to-react').Parser(React);
 var CardText = require('material-ui').CardText;
 var CardTitle = require('material-ui').CardTitle;
+var $ = require('jquery');
 
 var LectureText = React.createClass({
+    componentDidMount: function () {
+        this.highlightCode();
+    },
+    componentDidUpdate: function () {
+        this.highlightCode();
+    },
+    highlightCode: function () {
+        $('pre,code').each(function (i, block) {
+            hljs.highlightBlock(block);
+        });
+    },
     render: function () {
         return (
             <div className="lectureText">

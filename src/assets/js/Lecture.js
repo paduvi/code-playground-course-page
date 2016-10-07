@@ -34,7 +34,6 @@ function handleHtmlString(html) {
         if (['h1', 'h2', 'h3'].indexOf(element.name) != -1)
             element.name = 'h5';
     });
-    $('pre,code').attr('class', 'prettyprint');
 
     return $.html();
 }
