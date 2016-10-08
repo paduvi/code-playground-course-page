@@ -6,51 +6,60 @@ var browserify = require('browserify');
 var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var watchify = require('watchify');
+var concat = require('gulp-concat');
+var minifyCSS = require('gulp-minify-css');
+var autoprefixer = require('gulp-autoprefixer');
+var newer = require('gulp-newer');
+var order = require("gulp-order");
 
-var production = process.env.NODE_ENV === 'production';
-
-gulp.task('bundle', function () {
-    return bundleFile(false);
+gulp.task('bundle-js', function () {
+    return browserify('./src/assets/js/App.js')
+        .transform('babelify', {presets: ["es2015", "react"]})
+        .bundle()
+        .on('error', function (err) {
+            console.error("\033[31m", err.message, " \033[m");
+            console.error("\033[31m", err.codeFrame, " \033[m");
+            this.emit('end');
+        })
+        .pipe(source('bundle.js')) // gives streaming vinyl file object
+        .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
+        .pipe(uglify()) // now gulp-uglify works
+        .pipe(gulp.dest('./static/assets/js'))
+        .on('finish', function () {
+            console.log("\033[32m", "Bundle updated successfully at " + new Date(), " \033[m");
+        });
 });
 
-gulp.task('watch', function () {
-    return bundleFile(true);
+gulp.task('minify-css', function () {
+    return gulp.src('./src/assets/css/*.css')
+        .pipe(minifyCSS())
+        .pipe(autoprefixer({
+            browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
+        }))
+        .pipe(gulp.dest('./static/assets/css'))
+        .on('error', function (err) {
+            console.error("\033[31m", err.message, " \033[m");
+            console.error("\033[31m", err.codeFrame, " \033[m");
+            this.emit('end');
+        })
+        .on('finish', function () {
+            console.log("\033[32m", "Minify CSS successfully at " + new Date(), " \033[m");
+        });
 });
 
-function bundleFile(watch) {
-    var bundler = browserify({
-        entries: ['src/assets/js/App.js'],
-        debug: !production,
-        cache: {},
-        packageCache: {},
-        fullPaths: watch
-    });
-    if (watch) {
-        bundler = watchify(bundler)
-    }
-
-    function makeBundle() {
-        return bundler
-            .transform('babelify', {presets: ["es2015", "react"]})
-            .bundle()
-            .on('error', function (err) {
-                console.error("\033[31m", err.message, " \033[m");
-                console.error("\033[31m", err.codeFrame, " \033[m");
-                this.emit('end');
-            })
-            .pipe(source('bundle.js')) // gives streaming vinyl file object
-            .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-            .pipe(uglify()) // now gulp-uglify works
-            .pipe(gulp.dest('static/assets/js'))
-            .on('finish', function () {
-                console.log("\033[32m", "Bundle updated successfully at " + new Date(), " \033[m");
-            });
-    };
-
-    bundler.on('update', makeBundle);
-    return makeBundle();
-}
+gulp.task('sync', function () {
+    return gulp.src(['./src/assets/**/*', '!./src/assets/css/*', '!./src/assets/js/*', '!./src/assets/data/*'])
+        .pipe(newer('./static/assets'))
+        .pipe(gulp.dest('./static/assets'))
+        .on('error', function (err) {
+            console.error("\033[31m", err.message, " \033[m");
+            console.error("\033[31m", err.codeFrame, " \033[m");
+            this.emit('end');
+        })
+        .on('finish', function () {
+            console.log("\033[32m", "Sync assets successfully at " + new Date(), " \033[m");
+        });
+});
 
 // Default Task
-gulp.task('default', ['watch']);
+gulp.task('default', ['bundle-js', 'minify-css', 'sync']);

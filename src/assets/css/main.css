@@ -1,0 +1,30 @@
+@font-face {
+    font-family: Gotham;
+    src: url("../font/gotham/Gotham-Medium.otf") format("opentype");
+}
+
+*:not(span):not(i) {
+    font-family: Gotham !important;
+}
+
+body {
+    margin: 0px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: #3e474f;
+}
+
+.navBar {
+    background-color: #3e474f !important;
+}
+
+.navBar h1 {
+    color: #b2bbbd !important;
+}
+
+.navBar .material-icons {
+    margin-right: 24px !important;
+    font-size: 48px !important;
+    color: #5fcf80 !important;
+}

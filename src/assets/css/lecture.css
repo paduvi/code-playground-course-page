@@ -1,0 +1,241 @@
+.breadcrumb {
+    text-decoration: none;
+    cursor: pointer;
+    color: #576366;
+    font-size: 16px;
+}
+
+.breadcrumb:hover, .breadcrumb:focus {
+    color: #268266 !important;
+}
+
+.breadcrumb .material-icons {
+    color: #97a3a6 !important;
+    top: 7px;
+}
+
+.courseHeader {
+    background-color: #2c9676;
+}
+
+/* Begin actual mdl-stepper css styles */
+
+.mdl-stepper-horizontal-alternative {
+    display: table;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step {
+    display: table-cell;
+    position: relative;
+    padding: 24px 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:active {
+    border-radius: 15% / 75%;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:first-child:active {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:last-child:active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle {
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    border: 2px solid rgba(189, 189, 189, 0.7);
+    border-radius: 50%;
+    color: #BDBDBD;
+    text-align: center;
+    position: relative;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.current-step .mdl-stepper-circle {
+    border-color: white;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle:hover {
+    border-color: white;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle {
+    cursor: pointer;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:not(.active-step) .mdl-stepper-circle {
+    cursor: not-allowed;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle i {
+    font-size: 12px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-weight: bold;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle i.mask-icon {
+    z-index: 2;
+    background-color: white;
+    border-color: white;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 50%;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.step-done .mdl-stepper-circle i,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.current-step .mdl-stepper-circle i {
+    color: #2c9676;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle:hover i {
+    color: white;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.current-step .mdl-stepper-circle i:not(.mask-icon) {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    vertical-align: middle;
+    line-height: 28px;
+    text-align: center;
+    border: 2px solid rgba(243, 240, 240, 0.5);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle:hover i.mask-icon {
+    display: none;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .tooltiptext {
+    display: none;
+    max-width: 100%;
+    text-align: center;
+    padding: 0 10px 15px 10px;
+    box-sizing: border-box;
+    border-radius: 6px;
+    background-color: white;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 15px);
+    box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
+    -webkit-transition: all 300ms;
+    transition: all 300ms;
+    z-index: 3;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:not(.active-step) .tooltiptext {
+    background-color: rgba(243, 240, 240, 0.5);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .tooltiptext:before {
+    border: 10px solid;
+    border-color: transparent transparent white transparent;
+    content: "";
+    left: 50%;
+    bottom: 100%;
+    margin-left: -10px;
+    position: absolute;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:not(.active-step) .tooltiptext:before {
+    border-color: transparent transparent rgba(243, 240, 240, 0.5) transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-circle:hover ~ .tooltiptext {
+    display: inline-table;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-title,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-optional {
+    text-align: center;
+    white-space: normal;
+    max-width: 100%;
+    display: block;
+    font-weight: 500;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-title {
+    margin-top: 16px;
+    font-weight: 500;
+    color: #2c9676;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-optional {
+    font-size: 12px;
+    color: rgba(0, 0, 0, .26);
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:first-child .mdl-stepper-bar-left,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step:last-child .mdl-stepper-bar-right {
+    display: none;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-left,
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
+    position: absolute;
+    top: 36px;
+    height: 1px;
+    border-top: 1px solid #BDBDBD;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-right {
+    right: 0;
+    left: 50%;
+    margin-left: 20px;
+}
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step .mdl-stepper-bar-left {
+    left: 0;
+    right: 50%;
+    margin-right: 20px;
+}
+
+.coursePlayer {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.870588);
+}
+
+.coursePlayer .play {
+    display: none;
+}
+
+.coursePlayer .paused {
+    display: block;
+}
+
+.coursePlayer #video {
+    width: auto !important;
+    height: 720px !important;
+    min-width: initial !important;
+}
+
+@media screen and (max-height: 720px) {
+    .coursePlayer #video {
+        height: 480px !important;
+    }
+}
+
+@media screen and (max-height: 480px) {
+    .coursePlayer #video {
+        height: 360px !important;
+    }
+}
+
+.hljs {
+    margin: 20px;
+    padding: 15px 25px !important;
+    line-height: 24px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
