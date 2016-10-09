@@ -19,6 +19,15 @@ var CourseDetail = React.createClass({
             currentId: this.props.currentId
         }
     },
+    childContextTypes: {
+        route: React.PropTypes.object
+    },
+    getChildContext() {
+        return { route: this.context.route }
+    },
+    contextTypes: {
+        route: React.PropTypes.object
+    },
     loadLectureListInSection: function () {
         // request server API
         var steps = [{
@@ -110,6 +119,12 @@ var Course = React.createClass({
         if (index == this.props.params.id)
             return;
         this.props.router.push("/" + index);
+    },
+    childContextTypes: {
+        route: React.PropTypes.object
+    },
+    getChildContext() {
+        return {route: this.props.route}
     },
     render: function () {
         return (
