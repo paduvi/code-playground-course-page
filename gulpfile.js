@@ -14,12 +14,15 @@ var order = require("gulp-order");
 
 gulp.task('bundle-js', function () {
     return browserify('./src/assets/js/App.js')
-        .transform('babelify', {presets: ["es2015", "react"]})
+        .transform('babelify', {
+            presets: ["es2015", "react"],
+            plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
+        })
         .bundle()
         .on('error', function (err) {
             console.error("\033[31m", err.message, " \033[m");
             console.error("\033[31m", err.codeFrame, " \033[m");
-            this.emit('end');
+            this.emit('end')
         })
         .pipe(source('bundle.js')) // gives streaming vinyl file object
         .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object

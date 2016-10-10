@@ -3,10 +3,12 @@
  */
 var React = require('react');
 var withRouter = require('react-router').withRouter;
+var _ = require('lodash');
 
 var CardText = require('material-ui').CardText;
 var CardTitle = require('material-ui').CardTitle;
 var CardActions = require('material-ui').CardActions;
+var Subheader = require('material-ui').Subheader;
 var RaisedButton = require('material-ui').RaisedButton;
 var FlatButton = require('material-ui').FlatButton;
 var Dialog = require('material-ui').Dialog;
@@ -14,11 +16,20 @@ var Divider = require('material-ui').Divider;
 
 var LectureQuiz = React.createClass({
     getInitialState: function () {
+        let quizzes = _.shuffle(this.props.data.quiz.slice(0));
+        quizzes.map(function (quiz) {
+            _.shuffle(quiz.answer);
+        });
+
         return {
-            started: false,
+            status: 'prepare', // ['prepare', 'started', 'finished']
             openDialog: false,
             nextRoute: null,
-            removeLeaveHook: null
+            removeLeaveHook: null,
+            quizzes: quizzes,
+            chosenAnswers: [],
+            currentQuestion: 1,
+            submit: 'not' // ['not', 'loading', 'already']
         }
     },
     contextTypes: {
@@ -34,7 +45,7 @@ var LectureQuiz = React.createClass({
             this.state.removeLeaveHook();
     },
     routerWillLeave: function (route) {
-        if (this.state.started) {
+        if (this.state.status == 'started') {
             this.handleOpenDialog(route);
             return false;
         }
@@ -53,18 +64,29 @@ var LectureQuiz = React.createClass({
     handleContinueNavigate: function () {
         this.setState({
             openDialog: false,
-            started: false
+            status: 'prepare'
         }, function () {
             this.props.router.push(this.state.nextRoute);
         }.bind(this));
     },
     startQuiz: function () {
         this.setState({
-            started: true
+            status: 'started'
         })
     },
+    submitAnswer: function () {
+        this.setState({
+            submit: 'loading'
+        }, function () {
+            setTimeout(function () {
+                this.setState({
+                    submit: 'already'
+                })
+            }.bind(this), 1500);
+        }.bind(this))
+    },
     render: function () {
-        if (!this.state.started) {
+        if (this.state.status == 'prepare') {
             var message;
             if (this.props.data.left) {
                 message = (
@@ -115,6 +137,32 @@ var LectureQuiz = React.createClass({
                 onTouchTap={this.handleContinueNavigate}
             />,
         ];
+        var nextButton;
+        var nextIcon;
+        switch (this.state.submit) {
+            case 'not':
+                nextIcon = <i className="material-icons" style={{color: 'white', marginRight: '5px'}}>done</i>;
+                break;
+            case 'loading':
+                nextIcon =
+                    <i className="material-icons rotating" style={{color: 'white', marginRight: '5px'}}>autorenew</i>;
+                break;
+            case 'already':
+                nextIcon = <i className="material-icons" style={{color: 'white', marginRight: '5px'}}>navigate_next</i>;
+                break;
+        }
+        if (this.state.submit == 'already') {
+            nextButton = (
+                <RaisedButton label="Next question" labelStyle={{paddingRight: '3px'}} style={{margin: 12}}
+                              labelPosition="before" secondary={true} icon={nextIcon}/>
+            )
+        } else {
+            nextButton = (
+                <RaisedButton label="Submit" labelStyle={{paddingRight: '3px', color: 'white'}} style={{margin: 12}}
+                              labelPosition="before" backgroundColor="#2c9676" icon={nextIcon}
+                              onTouchTap={this.submitAnswer}/>
+            )
+        }
         return (
             <div>
                 <Dialog
@@ -122,6 +170,21 @@ var LectureQuiz = React.createClass({
                     actions={actions}
                     modal={true}
                     open={this.state.openDialog}/>
+                <CardText>
+                    <Subheader>Quiz Question {this.state.currentQuestion} of {this.props.data.quiz.length}</Subheader>
+                    <CardTitle title={this.state.quizzes[this.state.currentQuestion].text}/>
+                    <Divider/>
+                    <div>
+                        <div style={{display: 'inline-block'}}>
+                            <Subheader style={{lineHeight: '60px'}}>Choose the correct answer below:</Subheader>
+                        </div>
+                        <div className="button-controller">
+                            <RaisedButton label="Review lesson" style={{margin: 12}}/>
+                            {nextButton}
+                        </div>
+                    </div>
+                    <Divider/>
+                </CardText>
             </div>
         )
     }
