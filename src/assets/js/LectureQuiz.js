@@ -12,7 +12,6 @@ var FlatButton = require('material-ui').FlatButton;
 var Dialog = require('material-ui').Dialog;
 var Divider = require('material-ui').Divider;
 
-var leaveHook;
 var LectureQuiz = React.createClass({
     getInitialState: function () {
         return {
@@ -46,7 +45,12 @@ var LectureQuiz = React.createClass({
             nextRoute: route
         });
     },
-    handleCloseDialog: function () {
+    handleCancelNavigate: function () {
+        this.setState({
+            openDialog: false
+        });
+    },
+    handleContinueNavigate: function () {
         this.setState({
             openDialog: false,
             started: false
@@ -101,25 +105,23 @@ var LectureQuiz = React.createClass({
         }
         const actions = [
             <FlatButton
-                label="Cancel"
+                label="Stay my work"
                 primary={true}
-                onTouchTap={this.handleCloseDialog}
+                onTouchTap={this.handleCancelNavigate}
             />,
             <FlatButton
-                label="Submit"
-                primary={true}
-                onTouchTap={this.handleCloseDialog}
+                label="Leave it!!!"
+                secondary={true}
+                onTouchTap={this.handleContinueNavigate}
             />,
         ];
         return (
             <div>
                 <Dialog
-                    title="Dialog With Actions"
+                    title="Your work hasn't submitted yet. Do you really want to leave?"
                     actions={actions}
                     modal={true}
-                    open={this.state.openDialog}
-                >
-                </Dialog>
+                    open={this.state.openDialog}/>
             </div>
         )
     }
