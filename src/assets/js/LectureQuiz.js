@@ -12,25 +12,29 @@ var FlatButton = require('material-ui').FlatButton;
 var Dialog = require('material-ui').Dialog;
 var Divider = require('material-ui').Divider;
 
+var leaveHook;
 var LectureQuiz = React.createClass({
     getInitialState: function () {
         return {
             started: false,
             openDialog: false,
-            nextRoute: null
+            nextRoute: null,
+            removeLeaveHook: null
         }
     },
     contextTypes: {
         route: React.PropTypes.object
     },
-    componentDidMount: function () {
-        this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave);
+    componentWillMount: function () {
+        this.setState({
+            removeLeaveHook: this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave)
+        });
     },
     componentWillUnmount: function () {
-      console.log("Unmount");
+        if (this.state.removeLeaveHook)
+            this.state.removeLeaveHook();
     },
     routerWillLeave: function (route) {
-        console.log("vao day");
         if (this.state.started) {
             this.handleOpenDialog(route);
             return false;
@@ -47,7 +51,6 @@ var LectureQuiz = React.createClass({
             openDialog: false,
             started: false
         }, function () {
-            this.props.router.setRouteLeaveHook(null);
             this.props.router.push(this.state.nextRoute);
         }.bind(this));
     },
