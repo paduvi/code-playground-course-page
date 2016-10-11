@@ -8,6 +8,9 @@ import {FontIcon, Card, CardText} from 'material-ui';
 
 import Step from './Step';
 import Lecture from './Lecture';
+
+require('../css/Course.css');
+
 const backIcon = <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>;
 
 class CourseDetail extends React.Component {

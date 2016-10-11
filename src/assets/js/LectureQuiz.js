@@ -3,9 +3,11 @@
  */
 import React from 'react';
 import {withRouter} from 'react-router';
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 import {CardText, CardTitle, CardActions, Subheader, RaisedButton, FlatButton, Dialog, Divider} from 'material-ui';
+
+require('../css/LectureQuiz.css');
 
 class LectureQuiz extends React.Component {
     constructor(props) {

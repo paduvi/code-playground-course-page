@@ -1,0 +1,30 @@
+.coursePlayer {
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.870588);
+}
+
+.coursePlayer .play {
+    display: none;
+}
+
+.coursePlayer .paused {
+    display: block;
+}
+
+.coursePlayer #video {
+    width: auto !important;
+    height: 720px !important;
+    min-width: initial !important;
+}
+
+@media screen and (max-height: 720px) {
+    .coursePlayer #video {
+        height: 480px !important;
+    }
+}
+
+@media screen and (max-height: 480px) {
+    .coursePlayer #video {
+        height: 360px !important;
+    }
+}

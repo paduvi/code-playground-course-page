@@ -20,15 +20,14 @@ gulp.task('bundle-js', function () {
         })
         .bundle()
         .on('error', function (err) {
-            console.error("\033[31m", err.message, " \033[m");
-            console.error("\033[31m", err.codeFrame, " \033[m");
+            console.error("\033[31m", err, " \033[m");
             this.emit('end')
         })
         .pipe(source('bundle.js')) // gives streaming vinyl file object
         .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
         .pipe(uglify()) // now gulp-uglify works
         .pipe(gulp.dest('./static/assets/js'))
-        .on('finish', function () {
+        .on('end', function () {
             console.log("\033[32m", "Bundle updated successfully at " + new Date(), " \033[m");
         });
 });
@@ -41,8 +40,7 @@ gulp.task('minify-css', function () {
         }))
         .pipe(gulp.dest('./static/assets/css'))
         .on('error', function (err) {
-            console.error("\033[31m", err.message, " \033[m");
-            console.error("\033[31m", err.codeFrame, " \033[m");
+            console.error("\033[31m", err, " \033[m");
             this.emit('end');
         })
         .on('finish', function () {
@@ -55,8 +53,7 @@ gulp.task('sync', function () {
         .pipe(newer('./static/assets'))
         .pipe(gulp.dest('./static/assets'))
         .on('error', function (err) {
-            console.error("\033[31m", err.message, " \033[m");
-            console.error("\033[31m", err.codeFrame, " \033[m");
+            console.error("\033[31m", err, " \033[m");
             this.emit('end');
         })
         .on('finish', function () {

@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router,Route} from 'react-router';
+import {Router, Route} from 'react-router';
 import {MuiThemeProvider} from 'material-ui';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -11,6 +11,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Header from './Header';
 import Course from './Course';
 import NoMatch from './NoMatch';
+
+require('../css/Main.css');
 
 injectTapEventPlugin();
 
