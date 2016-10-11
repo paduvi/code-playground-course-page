@@ -97,9 +97,10 @@ class NoMatch extends React.Component {
     }
 
     componentWillUnmount() {
-        clearTimeout(this.timer);
         clearTimeout(this.timer1);
         clearTimeout(this.timer2);
+        clearTimeout(this.timer3);
+
     }
 
     render() {
