@@ -1,24 +1,29 @@
 /**
  * Created by Cho To Xau Tinh on 07-Oct-16.
  */
-var React = require('react');
-var Link = require('react-router').Link;
-var $ = require('jquery');
+import React from 'react';
+import {Link} from 'react-router';
+import $ from 'jquery';
 
-//prepare variables
-var degree = 0;
-var maxtalk = 0;
-var talkbubble = 1;
-var timer, timer1, timer2;
+class NoMatch extends React.Component {
+    constructor() {
+        super();
+        this.degree = 0;
+        this.maxtalk = 0;
+        this.talkbubble = 1;
+        this.timer1 = null;
+        this.timer2 = null;
+        this.timer3 = null;
+    }
 
-var NoMatch = React.createClass({
-    componentDidMount: function () {
+    componentDidMount() {
 
-        maxtalk = 0;
+        var self = this;
+        this.maxtalk = 0;
         //count talk bubbles
         $("div.bubble-options p.dog-bubble").each(function () {
-            maxtalk++;
-        });
+            this.maxtalk++;
+        }.bind(this));
 
         rotate();
         dogRun();
@@ -26,20 +31,20 @@ var NoMatch = React.createClass({
 
         //function that handles the talking dog bubble animations
         function dogTalk() {
-            timer = setTimeout(function () {
+            self.timer1 = setTimeout(function () {
 
                 //change the bubble html code
-                var $temp = "<p>" + $("div.bubble-options p.dog-bubble:nth-child(" + talkbubble + ")").html() + "</p>";
+                var $temp = "<p>" + $("div.bubble-options p.dog-bubble:nth-child(" + self.talkbubble + ")").html() + "</p>";
                 $("div.dog-bubble").html($temp);
 
                 //randomize bubble-option
                 //talkbubble = Math.floor((Math.random()*maxtalk)+1);
 
                 //browse through bubble-options
-                if (talkbubble < maxtalk)
-                    talkbubble++;
+                if (self.talkbubble < self.maxtalk)
+                    self.talkbubble = self.talkbubble + 1;
                 else
-                    talkbubble = 1;
+                    self.talkbubble = 1;
 
                 //show the bubble
                 $(".dog-bubble").animate({"opacity": '1', "bottom": '10px'}, 400);
@@ -60,19 +65,19 @@ var NoMatch = React.createClass({
             var $planet = $("div.planet>img");
 
             //CSS3
-            $planet.css({'transform': 'rotate(' + degree + 'deg)'});
+            $planet.css({'transform': 'rotate(' + self.degree + 'deg)'});
             // For webkit browsers: e.g. Chrome
-            $planet.css({WebkitTransform: 'rotate(' + degree * 2 + 'deg)'});
+            $planet.css({WebkitTransform: 'rotate(' + self.degree * 2 + 'deg)'});
             // For Mozilla browser: e.g. Firefox
-            $planet.css({'-moz-transform': 'rotate(' + degree + 'deg)'});
+            $planet.css({'-moz-transform': 'rotate(' + self.degree + 'deg)'});
             //IE9
-            $planet.css({'-ms-transform': 'rotate(' + degree + 'deg)'});
+            $planet.css({'-ms-transform': 'rotate(' + self.degree + 'deg)'});
             //Opera
-            $planet.css({'-o-transform': 'rotate(' + degree + 'deg)'});
+            $planet.css({'-o-transform': 'rotate(' + self.degree + 'deg)'});
 
             // Animate rotation with a recursive call
-            timer1 = setTimeout(function () {
-                degree -= 0.1;
+            self.timer2 = setTimeout(function () {
+                self.degree -= 0.1;
                 rotate();
             }, 10);
         }
@@ -81,7 +86,7 @@ var NoMatch = React.createClass({
         function dogRun() {
 
             var dog = $("div.dog");
-            timer2 = setTimeout(function () {
+            self.timer3 = setTimeout(function () {
                 if (dog.css("background-position") == "0px 0px")
                     dog.css({"background-position": "-80px -2px"});
                 else
@@ -89,13 +94,15 @@ var NoMatch = React.createClass({
                 dogRun();
             }, 130);
         }
-    },
-    componentWillUnmount: function () {
-        clearTimeout(timer);
-        clearTimeout(timer1);
-        clearTimeout(timer2);
-    },
-    render: function () {
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.timer);
+        clearTimeout(this.timer1);
+        clearTimeout(this.timer2);
+    }
+
+    render() {
         return (
             <div id="not-found-wrapper">
                 <div className="graphic">
@@ -167,6 +174,6 @@ var NoMatch = React.createClass({
             </div>
         );
     }
-});
+}
 
-module.exports = NoMatch;
+export default NoMatch

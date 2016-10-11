@@ -1,34 +1,30 @@
 /**
  * Created by Cho To Xau Tinh on 05-Oct-16.
  */
-var React = require('react');
-var withRouter = require('react-router').withRouter;
-var Link = require('react-router').Link;
-var FontIcon = require('material-ui').FontIcon;
-var Card = require('material-ui').Card;
-var CardText = require('material-ui').CardText;
+import React from 'react';
+import {withRouter} from 'react-router';
+import {Link} from 'react-router';
+import {FontIcon, Card, CardText} from 'material-ui';
 
-var backIcon = <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>;
-var Step = require('./Step');
-var Lecture = require('./Lecture');
+import Step from './Step';
+import Lecture from './Lecture';
+const backIcon = <FontIcon className="material-icons">keyboard_arrow_left</FontIcon>;
 
-var CourseDetail = React.createClass({
-    getInitialState: function () {
-        return {
+class CourseDetail extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             steps: [],
             currentId: this.props.currentId
         }
-    },
-    childContextTypes: {
-        route: React.PropTypes.object
-    },
+    }
+
     getChildContext() {
-        return { route: this.context.route }
-    },
-    contextTypes: {
-        route: React.PropTypes.object
-    },
-    loadLectureListInSection: function () {
+        return {route: this.context.route}
+    }
+
+    loadLectureListInSection() {
+        console.log("vao day");
         // request server API
         var steps = [{
             id: 0,
@@ -79,26 +75,30 @@ var CourseDetail = React.createClass({
         this.setState({
             steps: steps
         });
-    },
-    componentDidMount: function () {
+    }
+
+    componentDidMount() {
         this.loadLectureListInSection();
-    },
-    componentDidUpdate: function (prevProps) {
+    }
+
+    componentDidUpdate(prevProps) {
         if (this.props.currentId != prevProps.currentId) {
             this.setState({
                 currentId: this.props.currentId
             })
         }
-    },
-    changeLesson: function (index) {
-        if (this.state.current == index)
+    }
+
+    changeLesson(index) {
+        if (this.state.currentId == index)
             return;
         this.props.onChangeLesson(index);
-    },
-    render: function () {
+    }
+
+    render() {
         var stepList = this.state.steps.map(function (step) {
             return <Step data={step} current={this.state.currentId == step.id} key={step.id}
-                         onclick={this.changeLesson}/>
+                         onclick={id=> this.changeLesson(id)}/>
         }.bind(this));
 
         return (
@@ -112,28 +112,38 @@ var CourseDetail = React.createClass({
             </Card>
         )
     }
-});
+}
 
-var Course = React.createClass({
-    changeLesson: function (index) {
+CourseDetail.childContextTypes = {
+    route: React.PropTypes.object
+}
+CourseDetail.contextTypes = {
+    route: React.PropTypes.object
+}
+
+class Course extends React.Component {
+    changeLesson(index) {
         if (index == this.props.params.id)
             return;
         this.props.router.push("/" + index);
-    },
-    childContextTypes: {
-        route: React.PropTypes.object
-    },
+    }
+
     getChildContext() {
         return {route: this.props.route}
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div style={{marginTop: 15}}>
                 <Link to="/" className="breadcrumb">{backIcon} Java Basics</Link>
-                <CourseDetail currentId={this.props.params.id} onChangeLesson={this.changeLesson}/>
+                <CourseDetail currentId={this.props.params.id} onChangeLesson={id=>this.changeLesson(id)}/>
             </div>
         )
     }
-});
+}
 
-module.exports = withRouter(Course);
+Course.childContextTypes = {
+    route: React.PropTypes.object
+}
+
+export default withRouter(Course);

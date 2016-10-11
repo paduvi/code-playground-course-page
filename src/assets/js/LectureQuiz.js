@@ -1,27 +1,21 @@
 /**
  * Created by chotoxautinh on 10/8/16.
  */
-var React = require('react');
-var withRouter = require('react-router').withRouter;
-var _ = require('lodash');
+import React from 'react';
+import {withRouter} from 'react-router';
+import _ from 'lodash';
 
-var CardText = require('material-ui').CardText;
-var CardTitle = require('material-ui').CardTitle;
-var CardActions = require('material-ui').CardActions;
-var Subheader = require('material-ui').Subheader;
-var RaisedButton = require('material-ui').RaisedButton;
-var FlatButton = require('material-ui').FlatButton;
-var Dialog = require('material-ui').Dialog;
-var Divider = require('material-ui').Divider;
+import {CardText, CardTitle, CardActions, Subheader, RaisedButton, FlatButton, Dialog, Divider} from 'material-ui';
 
-var LectureQuiz = React.createClass({
-    getInitialState: function () {
+class LectureQuiz extends React.Component {
+    constructor(props) {
+        super(props);
         let quizzes = _.shuffle(this.props.data.quiz.slice(0));
         quizzes.map(function (quiz) {
             _.shuffle(quiz.answer);
         });
 
-        return {
+        this.state = {
             status: 'prepare', // ['prepare', 'started', 'finished']
             openDialog: false,
             nextRoute: null,
@@ -31,50 +25,55 @@ var LectureQuiz = React.createClass({
             currentQuestion: 1,
             submit: 'not' // ['not', 'loading', 'already']
         }
-    },
-    contextTypes: {
-        route: React.PropTypes.object
-    },
-    componentWillMount: function () {
+    }
+
+    componentWillMount() {
         this.setState({
-            removeLeaveHook: this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave)
+            removeLeaveHook: this.props.router.setRouteLeaveHook(this.context.route, this.routerWillLeave.bind(this))
         });
-    },
-    componentWillUnmount: function () {
+    }
+
+    componentWillUnmount() {
         if (this.state.removeLeaveHook)
             this.state.removeLeaveHook();
-    },
-    routerWillLeave: function (route) {
+    }
+
+    routerWillLeave(route) {
         if (this.state.status == 'started') {
             this.handleOpenDialog(route);
             return false;
         }
-    },
-    handleOpenDialog: function (route) {
+    }
+
+    handleOpenDialog(route) {
         this.setState({
             openDialog: true,
             nextRoute: route
         });
-    },
-    handleCancelNavigate: function () {
+    }
+
+    handleCancelNavigate() {
         this.setState({
             openDialog: false
         });
-    },
-    handleContinueNavigate: function () {
+    }
+
+    handleContinueNavigate() {
         this.setState({
             openDialog: false,
             status: 'prepare'
         }, function () {
             this.props.router.push(this.state.nextRoute);
         }.bind(this));
-    },
-    startQuiz: function () {
+    }
+
+    startQuiz() {
         this.setState({
             status: 'started'
         })
-    },
-    submitAnswer: function () {
+    }
+
+    submitAnswer() {
         this.setState({
             submit: 'loading'
         }, function () {
@@ -84,8 +83,9 @@ var LectureQuiz = React.createClass({
                 })
             }.bind(this), 1500);
         }.bind(this))
-    },
-    render: function () {
+    }
+
+    render() {
         if (this.state.status == 'prepare') {
             var message;
             if (this.props.data.left) {
@@ -102,7 +102,7 @@ var LectureQuiz = React.createClass({
                 var button = (
                     <CardActions style={{textAlign: 'center'}}>
                         <RaisedButton label="I'm ready! Let's go!" primary={true} style={{margin: 12}}
-                                      onTouchTap={this.startQuiz}/>
+                                      onTouchTap={()=>this.startQuiz()}/>
                     </CardActions>
                 );
             }
@@ -129,12 +129,12 @@ var LectureQuiz = React.createClass({
             <FlatButton
                 label="Stay my work"
                 primary={true}
-                onTouchTap={this.handleCancelNavigate}
+                onTouchTap={()=>this.handleCancelNavigate()}
             />,
             <FlatButton
                 label="Leave it!!!"
                 secondary={true}
-                onTouchTap={this.handleContinueNavigate}
+                onTouchTap={()=>this.handleContinueNavigate()}
             />,
         ];
         var nextButton;
@@ -160,7 +160,7 @@ var LectureQuiz = React.createClass({
             nextButton = (
                 <RaisedButton label="Submit" labelStyle={{paddingRight: '3px', color: 'white'}} style={{margin: 12}}
                               labelPosition="before" backgroundColor="#2c9676" icon={nextIcon}
-                              onTouchTap={this.submitAnswer}/>
+                              onTouchTap={()=>this.submitAnswer()}/>
             )
         }
         return (
@@ -174,7 +174,7 @@ var LectureQuiz = React.createClass({
                     <Subheader>Quiz Question {this.state.currentQuestion} of {this.props.data.quiz.length}</Subheader>
                     <CardTitle title={this.state.quizzes[this.state.currentQuestion].text}/>
                     <Divider/>
-                    <div>
+                    <div style={{overflow: "auto"}}>
                         <div style={{display: 'inline-block'}}>
                             <Subheader style={{lineHeight: '60px'}}>Choose the correct answer below:</Subheader>
                         </div>
@@ -188,6 +188,9 @@ var LectureQuiz = React.createClass({
             </div>
         )
     }
-});
+}
 
-module.exports = withRouter(LectureQuiz);
+LectureQuiz.contextTypes = {
+    route: React.PropTypes.object
+}
+export default withRouter(LectureQuiz)

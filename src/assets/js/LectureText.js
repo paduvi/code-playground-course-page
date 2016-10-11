@@ -1,36 +1,43 @@
 /**
  * Created by Cho To Xau Tinh on 07-Oct-16.
  */
-var React = require('react');
-var HtmlToReactParser = require('html-to-react').Parser(React);
-var CardText = require('material-ui').CardText;
-var CardTitle = require('material-ui').CardTitle;
-var $ = require('jquery');
+import React from 'react';
+import HtmlToReact from 'html-to-react';
+import {CardText, CardTitle} from 'material-ui'
+import $ from 'jquery';
 
-var LectureText = React.createClass({
-    componentDidMount: function () {
+class LectureText extends React.Component {
+    constructor(props) {
+        super(props);
+        this.HtmlToReactParser = HtmlToReact.Parser(React);
+    }
+
+    componentDidMount() {
         this.highlightCode();
-    },
-    componentDidUpdate: function () {
+    }
+
+    componentDidUpdate() {
         this.highlightCode();
-    },
-    highlightCode: function () {
+    }
+
+    highlightCode() {
         $('pre,code').each(function (i, block) {
             hljs.highlightBlock(block);
         });
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <div className="lectureText">
                 <CardTitle title={<h3
                     style={{fontSize: '28px', textAlign: 'center', fontWeight: 'bold'}}>{this.props.data.title}</h3>}
                            subtitleStyle={{display: 'inline'}} subtitle={this.props.data.subtitle}/>
                 <CardText color="rgba(0, 0, 0, 0.5)">
-                    {HtmlToReactParser.parse(this.props.data.content)}
+                    {this.HtmlToReactParser.parse(this.props.data.content)}
                 </CardText>
             </div>
         )
     }
-});
+}
 
-module.exports = LectureText;
+export default LectureText

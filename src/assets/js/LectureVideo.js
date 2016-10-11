@@ -1,17 +1,18 @@
 /**
  * Created by vietnam on 10/6/16.
  */
-var React = require('react');
-var CardMedia = require('material-ui').CardMedia;
-var CardTitle = require('material-ui').CardTitle;
+import React from 'react';
+import {CardMedia, CardTitle} from 'material-ui';
 
-var VideoPlayer = React.createClass({
-    getInitialState: function () {
-        return {
+class LectureVideo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             playerStatus: 'paused',
         }
-    },
-    componentDidMount: function () {
+    }
+
+    componentDidMount() {
         var video = document.getElementById('video');
         video.addEventListener("pause", function () {
             this.setPlayerStatus('paused');
@@ -19,16 +20,19 @@ var VideoPlayer = React.createClass({
         video.addEventListener("play", function () {
             this.setPlayerStatus('play')
         }.bind(this));
-    },
-    setPlayerStatus: function (status) {
+    }
+
+    setPlayerStatus(status) {
         this.setState({
             playerStatus: status
         });
-    },
-    render: function () {
+    }
+
+    render() {
         return (
             <CardMedia
-                overlay={<CardTitle className={this.state.playerStatus} title={this.props.data.title} subtitle={this.props.data.duration}/>}
+                overlay={<CardTitle className={this.state.playerStatus} title={this.props.data.title}
+                                    subtitle={this.props.data.duration}/>}
                 overlayContainerStyle={{top: '0', left: '0', right: '0', bottom: 'initial'}}
                 overlayContentStyle={{height: 'auto', top: '0', left: '0', right: '0', bottom: 'initial', padding: '0'}}
                 className="coursePlayer">
@@ -38,6 +42,6 @@ var VideoPlayer = React.createClass({
             </CardMedia>
         );
     }
-});
+}
 
-module.exports = VideoPlayer;
+export default LectureVideo

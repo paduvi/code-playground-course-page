@@ -25,8 +25,8 @@ gulp.task('bundle-js', function () {
             this.emit('end')
         })
         .pipe(source('bundle.js')) // gives streaming vinyl file object
-        .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-        .pipe(uglify()) // now gulp-uglify works
+        // .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
+        // .pipe(uglify()) // now gulp-uglify works
         .pipe(gulp.dest('./static/assets/js'))
         .on('finish', function () {
             console.log("\033[32m", "Bundle updated successfully at " + new Date(), " \033[m");

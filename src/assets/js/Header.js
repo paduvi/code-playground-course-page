@@ -1,19 +1,18 @@
 /**
  * Created by Cho To Xau Tinh on 05-Oct-16.
  */
-var React = require('react');
+import React from 'react';
 
-var AppBar = require('material-ui').AppBar;
-var FontIcon = require('material-ui').FontIcon;
+import {AppBar, FontIcon} from 'material-ui';
 
-var icon = <FontIcon className="material-icons">code</FontIcon>;
+const icon = <FontIcon className="material-icons">code</FontIcon>;
 
-var Header = React.createClass({
-    render: function () {
+class Header extends React.Component {
+    render() {
         return (
             <AppBar title="Code Playground" iconElementLeft={icon} className="navBar"/>
         )
     }
-});
+}
 
-module.exports = Header;
+export default Header

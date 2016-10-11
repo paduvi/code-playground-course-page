@@ -1,15 +1,16 @@
 /**
  * Created by vietnam on 10/6/16.
  */
-var React = require('react');
+import React from 'react';
 
-var Step = React.createClass({
-    changeLesson: function () {
+class Step extends React.Component {
+    changeLesson() {
         if (this.props.data.active) {
             this.props.onclick(this.props.data.id);
         }
-    },
-    render: function () {
+    }
+
+    render() {
         let className = 'mdl-stepper-step';
         var maskIcon;
         if (this.props.data.active) {
@@ -44,7 +45,7 @@ var Step = React.createClass({
 
         return (
             <div className={className}>
-                <div className="mdl-stepper-circle" onClick={this.changeLesson}>{icon}{maskIcon}</div>
+                <div className="mdl-stepper-circle" onClick={()=> this.changeLesson()}>{icon}{maskIcon}</div>
                 <span className="tooltiptext">
                     <div className="mdl-stepper-title">{this.props.data.title}</div>
                     <div className="mdl-stepper-optional">{this.props.data.subtitle}</div>
@@ -54,6 +55,6 @@ var Step = React.createClass({
             </div>
         )
     }
-});
+}
 
-module.exports = Step;
+export default Step

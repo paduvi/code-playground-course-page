@@ -1,13 +1,12 @@
 /**
  * Created by vietnam on 10/6/16.
  */
-var React = require('react');
-var cheerio = require('cheerio');
-var withRouter = require('react-router').withRouter;
+import React from 'react';
+import cheerio from 'cheerio';
 
-var LectureVideo = require('./LectureVideo');
-var LectureText = require('./LectureText');
-var LectureQuiz = require('./LectureQuiz');
+import LectureVideo from './LectureVideo';
+import LectureText from './LectureText';
+import LectureQuiz from './LectureQuiz';
 
 const dataList = [{
     id: 0,
@@ -163,36 +162,31 @@ function handleHtmlString(html) {
     return $.html();
 }
 
-var Lecture = React.createClass({
-    getInitialState: function () {
-        return {
-            data: {}
-        }
-    },
-    componentDidMount: function () {
+class Lecture extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {data: {}}
+    }
+
+    componentDidMount() {
         this.loadData();
-    },
-    childContextTypes: {
-        route: React.PropTypes.object
-    },
+    }
+
     getChildContext() {
-        return { route: this.context.route }
-    },
-    contextTypes: {
-        route: React.PropTypes.object
-    },
-    getChildContext() {
-        return { route: this.context.route }
-    },
-    componentDidUpdate: function (prevProps) {
+        return {route: this.context.route}
+    }
+
+    componentDidUpdate(prevProps) {
         var oldId = prevProps.currentId;
         var newId = this.props.currentId;
         if (oldId === newId) {
             return;
         }
         this.loadData();
-    },
-    loadData: function () {
+    }
+
+    loadData() {
         let filter = dataList.filter(function (o) {
             return o.id == this.props.currentId;
         }.bind(this));
@@ -202,8 +196,9 @@ var Lecture = React.createClass({
                 data: filter[0]
             });
         }
-    },
-    render: function () {
+    }
+
+    render() {
         if (!this.state.data.type) {
             return <div></div>;
         }
@@ -216,6 +211,13 @@ var Lecture = React.createClass({
                 return <LectureQuiz data={this.state.data}/>;
         }
     }
-});
+}
+;
 
-module.exports = withRouter(Lecture);
+Lecture.contextTypes = {
+    route: React.PropTypes.object
+}
+Lecture.childContextTypes = {
+    route: React.PropTypes.object
+}
+export default Lecture

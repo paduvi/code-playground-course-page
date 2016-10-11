@@ -1,17 +1,16 @@
 /**
  * Created by Cho To Xau Tinh on 05-Oct-16.
  */
-var React = require('react');
-var ReactDOM = require('react-dom');
-var Router = require('react-router').Router;
-var Route = require('react-router').Route;
-var MuiThemeProvider = require('material-ui').MuiThemeProvider;
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router,Route} from 'react-router';
+import {MuiThemeProvider} from 'material-ui';
 
-var injectTapEventPlugin = require('react-tap-event-plugin');
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-var Header = require('./Header');
-var Course = require('./Course');
-var NoMatch = require('./NoMatch');
+import Header from './Header';
+import Course from './Course';
+import NoMatch from './NoMatch';
 
 injectTapEventPlugin();
 
