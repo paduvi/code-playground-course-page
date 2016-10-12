@@ -5,8 +5,6 @@ import React from 'react';
 import {Link} from 'react-router';
 import $ from 'jquery';
 
-require('../css/NoMatch.css');
-
 class NoMatch extends React.Component {
     constructor() {
         super();

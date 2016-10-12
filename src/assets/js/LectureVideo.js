@@ -4,8 +4,6 @@
 import React from 'react';
 import {CardMedia, CardTitle} from 'material-ui';
 
-require('../css/LectureVideo.css');
-
 class LectureVideo extends React.Component {
     constructor(props) {
         super(props);

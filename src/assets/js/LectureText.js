@@ -6,8 +6,6 @@ import HtmlToReact from 'html-to-react';
 import {CardText, CardTitle} from 'material-ui'
 import $ from 'jquery';
 
-require('../css/railscasts.css');
-
 class LectureText extends React.Component {
     constructor(props) {
         super(props);

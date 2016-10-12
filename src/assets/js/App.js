@@ -12,8 +12,6 @@ import Header from './Header';
 import Course from './Course';
 import NoMatch from './NoMatch';
 
-require('../css/Main.css');
-
 injectTapEventPlugin();
 
 ReactDOM.render((

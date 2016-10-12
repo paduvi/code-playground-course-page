@@ -5,16 +5,26 @@ import React from 'react';
 import {withRouter} from 'react-router';
 import * as _ from 'lodash';
 
-import {CardText, CardTitle, CardActions, Subheader, RaisedButton, FlatButton, Dialog, Divider} from 'material-ui';
-
-require('../css/LectureQuiz.css');
+import {
+    CardText,
+    CardTitle,
+    CardActions,
+    Subheader,
+    RaisedButton,
+    FlatButton,
+    Dialog,
+    Divider,
+    Avatar
+} from 'material-ui';
+import {List, ListItem} from 'material-ui/List';
+import {pink200, pinkA200, redA700, transparent} from 'material-ui/styles/colors';
 
 class LectureQuiz extends React.Component {
     constructor(props) {
         super(props);
-        let quizzes = _.shuffle(this.props.data.quiz.slice(0));
-        quizzes.map(function (quiz) {
-            _.shuffle(quiz.answer);
+        let quizzes = _.shuffle(this.props.data.quiz.slice(0)).map(function (quiz) {
+            quiz.answer = _.shuffle(quiz.answer);
+            return quiz;
         });
 
         this.state = {
@@ -79,12 +89,28 @@ class LectureQuiz extends React.Component {
         this.setState({
             submit: 'loading'
         }, function () {
+
             setTimeout(function () {
                 this.setState({
                     submit: 'already'
                 })
             }.bind(this), 1500);
         }.bind(this))
+    }
+
+    toggleAnswer(answer) {
+        console.log("vao day");
+        var index = this.state.chosenAnswers.indexOf(answer);
+
+        if (~index) {
+            this.setState({
+                chosenAnswers: this.state.chosenAnswers.filter((_, i) => i !== index)
+            });
+        } else {
+            this.setState({
+                chosenAnswers: this.state.chosenAnswers.concat([answer])
+            });
+        }
     }
 
     render() {
@@ -165,6 +191,30 @@ class LectureQuiz extends React.Component {
                               onTouchTap={()=>this.submitAnswer()}/>
             )
         }
+        var answers = this.state.quizzes[this.state.currentQuestion - 1].answer.map(function (answer, index) {
+            let style = {left: 8};
+            let color = pink200;
+            let disabled = this.state.submit == 'already';
+            let className = this.state.submit == 'already' ? 'disabledList' : '';
+            if (~this.state.chosenAnswers.indexOf(answer)) {
+                if (this.state.submit == 'already') {
+                    if (answer.isCorrect) {
+                        color = "#2c9676";
+                        Object.assign(style, {borderRadius: '5px', border: '2px solid #2c9676'});
+                    } else {
+                        color = redA700;
+                        Object.assign(style, {borderRadius: '5px', border: '2px solid ' + redA700});
+                    }
+                } else {
+                    color = pinkA200;
+                    Object.assign(style, {borderRadius: '5px', border: '2px solid ' + pinkA200});
+                }
+            }
+            let avatar = <Avatar color={color} backgroundColor={transparent}
+                                 style={style}>{String.fromCharCode(65 + index)}</Avatar>
+            return <ListItem className={className} primaryText={answer.text} leftAvatar={avatar} disabled={disabled}
+                             onTouchTap={()=>this.toggleAnswer(answer)}/>
+        }.bind(this));
         return (
             <div>
                 <Dialog
@@ -174,7 +224,7 @@ class LectureQuiz extends React.Component {
                     open={this.state.openDialog}/>
                 <CardText>
                     <Subheader>Quiz Question {this.state.currentQuestion} of {this.props.data.quiz.length}</Subheader>
-                    <CardTitle title={this.state.quizzes[this.state.currentQuestion].text}/>
+                    <CardTitle title={this.state.quizzes[this.state.currentQuestion - 1].text}/>
                     <Divider/>
                     <div style={{overflow: "auto"}}>
                         <div style={{display: 'inline-block'}}>
@@ -186,6 +236,9 @@ class LectureQuiz extends React.Component {
                         </div>
                     </div>
                     <Divider/>
+                    <List>
+                        {answers}
+                    </List>
                 </CardText>
             </div>
         )
