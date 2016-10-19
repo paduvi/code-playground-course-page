@@ -66,7 +66,7 @@ gulp.task('nodemon', function () {
     nodemon({
         script: 'server.js'
     })
-})
+});
 
 // Default Task
 gulp.task('default', ['bundle-js', 'minify-css', 'sync', 'nodemon']);
