@@ -1,6 +1,7 @@
 /**
  * Created by Cho To Xau Tinh on 03-Oct-16.
  */
+var os = require('os');
 var gulp = require('gulp');
 var browserify = require('browserify');
 var uglify = require('gulp-uglify');
@@ -11,6 +12,7 @@ var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var newer = require('gulp-newer');
 var order = require("gulp-order");
+var open = require('gulp-open');
 var nodemon = require("gulp-nodemon");
 
 gulp.task('bundle-js', function () {
@@ -65,8 +67,17 @@ gulp.task('sync', function () {
 gulp.task('nodemon', function () {
     nodemon({
         script: 'server.js'
-    })
+    });
+});
+
+gulp.task('openBrowser', function () {
+    var browser = os.platform() === 'linux' ? 'google-chrome' : (
+        os.platform() === 'darwin' ? 'google chrome' : (
+            os.platform() === 'win32' ? 'chrome' : 'firefox'));
+
+    gulp.src(__filename)
+        .pipe(open({uri: 'http://localhost:2702', app: browser}));
 });
 
 // Default Task
-gulp.task('default', ['bundle-js', 'minify-css', 'sync', 'nodemon']);
+gulp.task('default', ['bundle-js', 'minify-css', 'sync', 'nodemon', 'openBrowser']);
