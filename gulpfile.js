@@ -11,6 +11,7 @@ var minifyCSS = require('gulp-minify-css');
 var autoprefixer = require('gulp-autoprefixer');
 var newer = require('gulp-newer');
 var order = require("gulp-order");
+var nodemon = require("gulp-nodemon");
 
 gulp.task('bundle-js', function () {
     return browserify('./src/assets/js/App.js')
@@ -61,5 +62,11 @@ gulp.task('sync', function () {
         });
 });
 
+gulp.task('nodemon', function () {
+    nodemon({
+        script: 'server.js'
+    })
+})
+
 // Default Task
-gulp.task('default', ['bundle-js', 'minify-css', 'sync']);
+gulp.task('default', ['bundle-js', 'minify-css', 'sync', 'nodemon']);
