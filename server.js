@@ -8,6 +8,6 @@ var compression = require('compression');
 app.use(compression());
 app.use(express.static('static'));
 
-app.listen(2702, function () {
+app.listen(2702, "0.0.0.0", function () {
     console.log('Example app listening on port 2702!');
 });
