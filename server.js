@@ -8,6 +8,10 @@ var compression = require('compression');
 app.use(compression());
 app.use(express.static('static'));
 
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + '/static/index.html');
+});
+
 app.listen(2702, function (err) {
     if (err)
         throw err;

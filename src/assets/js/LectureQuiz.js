@@ -33,6 +33,7 @@ class LectureQuiz extends React.Component {
             nextRoute: null,
             removeLeaveHook: null,
             quizzes: quizzes,
+            rightQuestion: 0,
             chosenAnswers: [],
             currentQuestion: 1,
             submit: 'not' // ['not', 'loading', 'already']
@@ -90,16 +91,24 @@ class LectureQuiz extends React.Component {
             submit: 'loading'
         }, function () {
 
+            let result = true;
+            for (let answer of this.state.chosenAnswers) {
+                if (!answer.isCorrect) {
+                    result = false;
+                    break;
+                }
+            }
+
             setTimeout(function () {
                 this.setState({
-                    submit: 'already'
+                    submit: 'already',
+                    rightQuestion: result ? this.rightQuestion + 1 : this.rightQuestion
                 })
             }.bind(this), 1500);
         }.bind(this))
     }
 
     toggleAnswer(answer) {
-        console.log("vao day");
         var index = this.state.chosenAnswers.indexOf(answer);
 
         if (~index) {
@@ -111,6 +120,18 @@ class LectureQuiz extends React.Component {
                 chosenAnswers: this.state.chosenAnswers.concat([answer])
             });
         }
+    }
+
+    nextQuestion() {
+        this.setState({
+            currentQuestion: this.state.currentQuestion + 1,
+            chosenAnswers: [],
+            submit: 'not'
+        });
+    }
+
+    concludeResult() {
+
     }
 
     render() {
@@ -180,10 +201,20 @@ class LectureQuiz extends React.Component {
                 break;
         }
         if (this.state.submit == 'already') {
-            nextButton = (
-                <RaisedButton label="Next question" labelStyle={{paddingRight: '3px'}} style={{margin: 12}}
-                              labelPosition="before" secondary={true} icon={nextIcon}/>
-            )
+            if (this.state.currentQuestion == this.state.quizzes.length) {
+                nextButton = (
+                    <RaisedButton label="Done" labelStyle={{paddingRight: '3px'}} style={{margin: 12}}
+                                  labelPosition="before" secondary={true} icon={nextIcon}
+                                  onTouchTap={()=>this.concludeResult()}/>
+                )
+            } else {
+                nextButton = (
+                    <RaisedButton label="Next question" labelStyle={{paddingRight: '3px'}} style={{margin: 12}}
+                                  labelPosition="before" secondary={true} icon={nextIcon}
+                                  onTouchTap={()=>this.nextQuestion()}/>
+                )
+            }
+
         } else {
             nextButton = (
                 <RaisedButton label="Submit" labelStyle={{paddingRight: '3px', color: 'white'}} style={{margin: 12}}
