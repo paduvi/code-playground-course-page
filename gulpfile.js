@@ -27,14 +27,15 @@ gulp.task('bundle-js', function () {
             plugins: ["transform-react-constant-elements", "transform-react-inline-elements"]
         })
         .bundle()
+
         .on('error', function (err) {
             console.error("\033[31m", err, " \033[m");
             this.emit('end')
         })
         .pipe(source('bundle.js')) // gives streaming vinyl file object
         .pipe(buffer()) // <----- convert from streaming to buffered vinyl file object
-        .pipe(cond(production, uglify())) // now gulp-uglify works
         .pipe(cond(!production, sourcemaps.init({loadMaps: true})))
+        .pipe(cond(production, uglify())) // now gulp-uglify works
         .pipe(cond(!production, sourcemaps.write()))
         .pipe(gulp.dest('./static/assets/js'))
         .on('end', function () {
@@ -71,7 +72,7 @@ gulp.task('sync', function () {
         });
 });
 
-gulp.task('watch', ['bundle-js', 'minify-css', 'sync'], function () {
+gulp.task('watch', function () {
     var watcher = gulp.watch('./src/assets/**', ['bundle-js', 'minify-css', 'sync']);
     watcher.on('change', function (event) {
         console.log("\033[32m", 'File ' + event.path + ' was ' + event.type + ', running tasks...', " \033[m");
@@ -94,7 +95,9 @@ gulp.task('openBrowser', function () {
         .pipe(open({uri: 'http://localhost:2702', app: browser}));
 });
 
-// Default Task
-gulp.task('default', function () {
-    runSequence('watch', 'nodemon', 'openBrowser');
+//Default Task
+gulp.task('default', ['bundle-js', 'minify-css', 'sync'], function () {
+    if (!production)
+        runSequence(['watch', 'nodemon'], 'openBrowser');
 });
+

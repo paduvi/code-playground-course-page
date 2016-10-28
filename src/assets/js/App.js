@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route} from 'react-router';
+import {Router, Route, browserHistory} from 'react-router';
 import {MuiThemeProvider} from 'material-ui';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -18,7 +18,7 @@ ReactDOM.render((
     <MuiThemeProvider>
         <div>
             <Header/>
-            <Router>
+            <Router history={browserHistory}>
                 <Route path="/:id" component={Course}/>
                 <Route path="*" component={NoMatch}/>
             </Router>

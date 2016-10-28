@@ -4,7 +4,7 @@
   "description": "mockup template for code playground course page",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "gulp-build": "set NODE_ENV=production && gulp"
   },
   "repository": {
     "type": "git",
